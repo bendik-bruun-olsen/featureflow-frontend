@@ -1,11 +1,5 @@
-import { useNavigate } from "react-router-dom"
-
 export default function FeatureRequestPage() {
-    const navigate = useNavigate();
 
-    const onClickRequest = () => {
-
-    }
 
     return (
         <>

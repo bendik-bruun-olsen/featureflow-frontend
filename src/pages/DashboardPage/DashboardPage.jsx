@@ -1,25 +1,24 @@
 import { useState } from "react";
 
 export default function DashboardPage() {
-    const [inputValue, setInputValue] = useState("")
+    // const [inputValue, setInputValue] = useState("")
     const [postValue, setPostValue] = useState({
-        firstName: "",
-        lastName: "",
+        username: "",
         email: "",
         password: ""
     })
     // const [data, setData] = useState("")
     const baseUrl = "http://localhost:3001"
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch(`${baseUrl}/api/users/${inputValue}`)
-            const result = await response.json();
-            console.log("result: ", result); 
-        } catch (e) {
-            console.error("An error happened fetching: ", e);
-        }
-    }
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await fetch(`${baseUrl}/api/users/${inputValue}`)
+    //         const result = await response.json();
+    //         console.log("result: ", result); 
+    //     } catch (e) {
+    //         console.error("An error happened fetching: ", e);
+    //     }
+    // }
 
     const postData = async () => {
         try {
@@ -39,15 +38,6 @@ export default function DashboardPage() {
         }
     }
 
-    const handleChange = (e) => {
-        setInputValue(e.target.value)
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        fetchData();
-    }
-
     const handlePostChange = (e) => {
         const { name, value } = e.target;
         setPostValue((prev) => ({
@@ -65,24 +55,18 @@ export default function DashboardPage() {
     return (
         <>
         
-        <form onSubmit={handleSubmit}>
+        {/* <form onSubmit={handleSubmit}>
             <input type="number" value={inputValue} onChange={handleChange} placeholder="Submit your query here"/>
             <button type="submit">Submit Query</button>
-        </form>
+        </form> */}
+        <h2>Create user</h2>
         <form onSubmit={handlePostSubmit}>
         <input
             type="text"
-            name="firstName"
-            value={postValue.firstName}
+            name="username"
+            value={postValue.username}
             onChange={handlePostChange}
-            placeholder="First Name"
-        />
-        <input
-            type="text"
-            name="lastName"
-            value={postValue.lastName}
-            onChange={handlePostChange}
-            placeholder="Last Name"
+            placeholder="Username"
         />
         <input
             type="email"
@@ -98,7 +82,7 @@ export default function DashboardPage() {
             onChange={handlePostChange}
             placeholder="Password"
         />
-        <button type="submit">Submit POST Data</button>
+        <button type="submit">Create</button>
     </form>
         </>
     )
