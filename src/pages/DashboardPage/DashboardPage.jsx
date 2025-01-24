@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function HomePage() {
+export default function DashboardPage() {
     const [inputValue, setInputValue] = useState("")
     const [postValue, setPostValue] = useState({
         firstName: "",

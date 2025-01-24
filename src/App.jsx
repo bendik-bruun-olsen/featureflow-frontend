@@ -1,9 +1,10 @@
 // import './App.css'
 
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import HomePage from "./pages/HomePage/HomePage"
-import Page1 from "./pages/Page1/Page1"
-import Page2 from "./pages/Page2/Page2"
+import HomePage from "./pages/DashboardPage/DashboardPage"
+import FeatureRequestPage from "./pages/FeatureRequestPage/FeatureRequestPage"
+import FeatureOverviewPage from "./pages/FeatureOverviewPage/FeatureOverviewPage"
+import IssuePage from "./pages/IssuePage/IssuePage"
 import Navbar from "./components/Navbar"
 
 function App() {
@@ -14,8 +15,9 @@ function App() {
     <main>
       <Routes>
         <Route path="/" element={<HomePage/>}/>
-        <Route path="/page1" element={<Page1/>}/>
-        <Route path="/page2" element={<Page2/>}/>
+        <Route path="/features" element={<FeatureOverviewPage/>}/>
+        <Route path="/request-feature" element={<FeatureRequestPage/>}/>
+        <Route path="/issues" element={<IssuePage/>}/>
       </Routes>
     </main>
     </BrowserRouter>

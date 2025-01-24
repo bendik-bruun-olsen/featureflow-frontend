@@ -4,7 +4,7 @@ export default function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
-                    <Link className="navbar-brand" to="/">Project</Link>
+                    <Link className="navbar-brand" to="/">FeatureFlow</Link>
                     <button
                         className="navbar-toggler"
                         type="button"
@@ -19,13 +19,13 @@ export default function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">Home</Link>
+                                <Link className="nav-link" to="/">Dashboard</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/page1">Page1</Link>
+                                <Link className="nav-link" to="/features">Features</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/page2">Page2</Link>
+                                <Link className="nav-link" to="/issues">Issues</Link>
                             </li>
                         </ul>
                     </div>
