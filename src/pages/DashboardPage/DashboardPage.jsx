@@ -7,6 +7,10 @@ export default function DashboardPage() {
         email: "",
         password: ""
     })
+    const [loginValue, setLoginValue] = useState({
+        email: "",
+        password: ""
+    })
     // const [data, setData] = useState("")
     const baseUrl = "http://localhost:3001"
 
@@ -20,9 +24,9 @@ export default function DashboardPage() {
     //     }
     // }
 
-    const postData = async () => {
+    const signupUser = async () => {
         try {
-            const response = await fetch(`${baseUrl}/api/users`, {
+            const response = await fetch(`${baseUrl}/api/user/create`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -30,15 +34,36 @@ export default function DashboardPage() {
                 body: JSON.stringify(postValue)
             });
             const result = await response.json();
-            console.log("POST result: ", result);
+            console.log("Signup result: ", result);
             
         } catch (err) {
-            console.error("An error happened posting: ", err);
+            console.error("An error happened signing up: ", err);
+            
+        }
+    }
+    
+    const loginUser = async () => {
+        try {
+            const response = await fetch(`${baseUrl}/api/user/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(loginValue)
+            });
+            const result = await response.json();
+            if (response.ok) {
+                localStorage.setItem("token", result.token)
+            }
+            console.log("Login result: ", result);
+            
+        } catch (err) {
+            console.error("An error happened logging in: ", err);
             
         }
     }
 
-    const handlePostChange = (e) => {
+    const handleSignupChange = (e) => {
         const { name, value } = e.target;
         setPostValue((prev) => ({
             ...prev,
@@ -46,11 +71,24 @@ export default function DashboardPage() {
         }));
     };
 
+    const handleLoginChange = (e) => {
+        const { name, value } = e.target;
+        setLoginValue((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+
     const handlePostSubmit = (e) => {
         e.preventDefault();
-        postData();
+        signupUser();
     };
-    // O60\$"C5Jq7b
+    
+    const handleLogin = (e) => {
+        e.preventDefault();
+        loginUser();
+    }
 
     return (
         <>
@@ -59,31 +97,59 @@ export default function DashboardPage() {
             <input type="number" value={inputValue} onChange={handleChange} placeholder="Submit your query here"/>
             <button type="submit">Submit Query</button>
         </form> */}
+        <div>
         <h2>Create user</h2>
         <form onSubmit={handlePostSubmit}>
         <input
             type="text"
             name="username"
             value={postValue.username}
-            onChange={handlePostChange}
+            onChange={handleSignupChange}
             placeholder="Username"
         />
         <input
             type="email"
             name="email"
             value={postValue.email}
-            onChange={handlePostChange}
+            onChange={handleSignupChange}
             placeholder="Email"
         />
         <input
             type="password"
             name="password"
             value={postValue.password}
-            onChange={handlePostChange}
+            onChange={handleSignupChange}
             placeholder="Password"
+            minLength={8}
+            maxLength={255}
         />
         <button type="submit">Create</button>
     </form>
+    <div>
+        <h2>Log user in</h2>
+        <form onSubmit={handleLogin}>
+        <input
+            type="email"
+            name="email"
+            value={loginValue.email}
+            onChange={handleLoginChange}
+            placeholder="Email"
+            maxLength={320}
+        />
+        <input
+            type="password"
+            name="password"
+            value={loginValue.password}
+            onChange={handleLoginChange}
+            placeholder="Password"
+            minLength={8}
+            maxLength={255}
+        />
+        <button type="submit">Log in</button>
+        </form>
+    </div>
+            
+        </div>
         </>
     )
 }
