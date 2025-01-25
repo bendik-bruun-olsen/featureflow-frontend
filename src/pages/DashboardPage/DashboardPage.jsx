@@ -52,10 +52,12 @@ export default function DashboardPage() {
                 body: JSON.stringify(loginValue)
             });
             const result = await response.json();
-            if (response.ok) {
-                localStorage.setItem("token", result.token)
+            if (!response.ok) {
+                throw new Error(response.message)
             }
             console.log("Login result: ", result);
+            localStorage.setItem("token", result.token)
+            
             
         } catch (err) {
             console.error("An error happened logging in: ", err);

@@ -10,17 +10,17 @@ export default function usePost() {
 		setError(null);
 
 		try {
+			const token = localStorage.getItem("token");
+			const headers = { "Content-Type": "application/json" };
+			if (token) headers.Authorization = `Bearer ${token}`;
 			const res = await fetch(url, {
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
+				headers: headers,
 				body: JSON.stringify(data),
 			});
 			console.log("res: ", res);
 
 			if (!res.ok) {
-				console.log("Not okay");
 				throw new Error(res.statusText);
 			}
 

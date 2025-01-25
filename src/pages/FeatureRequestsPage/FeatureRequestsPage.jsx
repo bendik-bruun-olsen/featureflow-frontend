@@ -1,7 +1,7 @@
 import { useState } from "react";
 import FeatureRequestCreateModal from "../../components/FeatureRequestCreateModal";
 
-export default function FeatureOverviewPage() {
+export default function FeatureRequestsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => setIsModalOpen(true);

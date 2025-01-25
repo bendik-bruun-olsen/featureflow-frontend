@@ -2,7 +2,7 @@ import { useState } from "react";
 import usePost from "../hooks/usePost";
 
 export default function FeatureRequestCreateModal({ show, onClose, onSuccess }) {
-  const [formData, setFormData] = useState({ title: "", description: "", createdBy: 1 });
+  const [formData, setFormData] = useState({ title: "", description: "" });
   const { post, isLoading, error } = usePost();
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
