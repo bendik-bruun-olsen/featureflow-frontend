@@ -123,29 +123,30 @@ export default function IssuePage() {
                     </div>
                     <div className="col-auto d-flex gap-2 align-items-center justify-content-center">
                         <span
-                        className={`badge ${
-                            issue.status === "in progress"
-                            ? "bg-warning"
-                            : issue.status === "resolved"
-                            ? "bg-success"
-                            : "bg-secondary"
-                        } fs-6 py-2 px-3`}
-                        >
-                        {capitalizeEachWord(issue.status)}
+                            className={`badge ${
+                                issue.severity === "low"
+                                ? "bg-success"
+                                : issue.severity === "medium"
+                                ? "bg-warning"
+                                : issue.severity === "high"
+                                ? "bg-danger"
+                                : "bg-dark"
+                            } fs-6 py-2 px-3`}
+                            >
+                            {capitalizeEachWord(issue.severity)}
                         </span>
                         <span
-                        className={`badge ${
-                            issue.severity === "low"
-                            ? "bg-success"
-                            : issue.severity === "medium"
-                            ? "bg-warning"
-                            : issue.severity === "high"
-                            ? "bg-danger"
-                            : "bg-dark"
-                        } fs-6 py-2 px-3`}
-                        >
-                        {capitalizeEachWord(issue.severity)}
+                            className={`badge ${
+                                issue.status === "in progress"
+                                ? "bg-warning"
+                                : issue.status === "resolved"
+                                ? "bg-success"
+                                : "bg-secondary"
+                            } fs-6 py-2 px-3`}
+                            >
+                            {capitalizeEachWord(issue.status)}
                         </span>
+
                     </div>
                     </div>
                 </div>
