@@ -26,8 +26,9 @@ export default function IssuePage() {
           Authorization: `Bearer ${token}`,
         },
       });
+      const responseData = await response.json()
       if (!response.ok) {
-        throw new Error("Unable to retrieve data");
+        throw new Error(responseData);
       }
       const result = await response.json();
       console.log("Result in IssuePage: ", result);

@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const VotingComponent = ({ featureId, initialVoteCount, userVote }) => {
     const [voteCount, setVoteCount] = useState(initialVoteCount);
     const [userVoteState, setUserVoteState] = useState(userVote);
+    const [isProcessingVote, setIsProcessingVote] = useState(false);
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-    useEffect(() => {
-        console.log("voteCount: ", voteCount);
-        console.log("userVoteState:", userVoteState);
-        
-    }, [voteCount, userVoteState])
     
     const postVote = async (vote) => {
+        setIsProcessingVote(true)
         try {
             const token = localStorage.getItem("token")
             if (!token) {
@@ -24,20 +21,24 @@ const VotingComponent = ({ featureId, initialVoteCount, userVote }) => {
                 },
                 body: JSON.stringify({ featureId, vote }),
             });
-            if (!response.ok) return false;
-            await response.json();
-            console.log("Response: ", response);
+            const responseData = await response.json()
+            if (!response.ok) {
+                throw new Error(responseData);
+              }
             return true;
-        } catch {
-            console.error("Unable to process vote")
+        } catch (err){
+            console.error(err)
             return false;
+        } finally {
+            setIsProcessingVote(false);
         }
     }
 
     const handleVote = async (vote) => {
-        if (!await postVote(vote)) return;
-        console.log("past");
-        
+        if (isProcessingVote) return;
+        const voteSuccess = await postVote(vote);
+        if (!voteSuccess) return;
+
         if (userVoteState === vote) {
             setVoteCount(voteCount - vote);
             setUserVoteState(0);
@@ -48,11 +49,7 @@ const VotingComponent = ({ featureId, initialVoteCount, userVote }) => {
             setVoteCount(voteCount + 2 * vote);
             setUserVoteState(vote);
         }
-        
-
     };
-
-    
 
     return (
         <div className="d-flex flex-column align-items-center px-2">
