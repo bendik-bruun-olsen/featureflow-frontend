@@ -1,20 +1,19 @@
 import { useState } from "react";
 
 export default function FeatureRequestCreateModal({ show, onClose, onSuccess }) {
-  const [data, setData] = useState({ title: "", description: "" });
+  const [formData, setFormData] = useState({ title: "", description: "" });
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await postData();
-    if (!error) {
-      setData({ title: "", description: "" })
-      onSuccess();
-      onClose();
+    const submitSuccess = await postData();
+    if (!submitSuccess) return;
+    setFormData({ title: "", description: "" })
+    onSuccess();
+    onClose();
     }
-  }
 
   const postData = async () => {
 		setIsLoading(true);
@@ -30,16 +29,17 @@ export default function FeatureRequestCreateModal({ show, onClose, onSuccess }) 
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
           },
-				body: JSON.stringify(data),
+				body: JSON.stringify(formData),
 			});
+      const responseData = await response.json()
       if (!response.ok) {
-        throw new Error("Unable to create request")
+        throw new Error(responseData.message)
       }
-			const result = await response.json();
-      setData(result);
+      return true;
 		} catch (err) {
 			setError(err.message);
 			console.error(err);
+      return false;
 		} finally {
 			setIsLoading(false);
 		}
@@ -66,8 +66,8 @@ export default function FeatureRequestCreateModal({ show, onClose, onSuccess }) 
                   type="text"
                   id="title"
                   className="form-control"
-                  value={data.title}
-                  onChange={(e) => setData({ ...data, title: e.target.value })}
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   required
                   maxLength={255}
                 />
@@ -80,8 +80,8 @@ export default function FeatureRequestCreateModal({ show, onClose, onSuccess }) 
                   id="description"
                   className="form-control"
                   rows="6"
-                  value={data.description}
-                  onChange={(e) => setData({ ...data, description: e.target.value })}
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   maxLength={1000}
                 />
               </div>
