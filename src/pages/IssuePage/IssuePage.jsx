@@ -48,7 +48,6 @@ export default function IssuePage() {
   const handleModalClose = () => setIsModalOpen(false);
 
   const handleSuccess = () => {
-    console.log("New Issue Created");
     fetchData();
   };
 

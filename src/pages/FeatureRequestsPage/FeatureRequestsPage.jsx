@@ -47,7 +47,7 @@ export default function FeatureRequestsPage() {
   const handleModalClose = () => setIsModalOpen(false);
 
   const handleSuccess = () => {
-    console.log("New Feature Request Created:");
+    fetchData();
   };
 
   const getSortedData = () => {
