@@ -74,7 +74,7 @@ export default function IssuePage() {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1>Issues</h1>
       </div>
-      <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
+      <div className="d-flex justify-content-between align-items-center mb-3 gap-3">
         <div className="d-flex">
           <select
             className="form-select w-auto me-2"

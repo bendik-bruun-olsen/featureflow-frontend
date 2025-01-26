@@ -74,7 +74,7 @@ export default function FeatureRequestsPage() {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1>Feature Requests</h1>
       </div>
-      <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
+      <div className="d-flex justify-content-between align-items-center mb-3 gap-3">
         <div className="d-flex">
         <button
           className={`btn ${sortMethod === "top" ? "btn-primary" : "btn-outline-primary"}`}
