@@ -11,6 +11,7 @@ export default function LoginPage() {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
@@ -19,6 +20,9 @@ export default function LoginPage() {
         ...prev,
         email: location.state.email,
       }));
+    }
+    if (location.state?.message) {
+      setSuccessMessage(location.state.message);
     }
   }, [location.state]);
 
@@ -58,11 +62,12 @@ export default function LoginPage() {
 
   return (
     <div
-      className="d-flex justify-content-center align-items-center" style={{height: "100%"}}
+      className="d-flex justify-content-center align-items-center pt-5" style={{height: "100%"}}
     >
       <div className="card shadow-lg p-4" style={{ width: "400px" }}>
         <h5 className="card-title text-center mb-3">Log in to Your Account</h5>
         {error && <div className="alert alert-danger">{error}</div>}
+        {successMessage && <div className="alert alert-success">{successMessage}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
