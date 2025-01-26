@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Paths } from "../../paths";
-// import usePost from "../../hooks/usePost";
 
 export default function SignupPage() {
   const [signupValues, setSignupValues] = useState({
@@ -14,13 +13,6 @@ export default function SignupPage() {
   const [error, setError] = useState(null);
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
-  // const handleSignupValuesChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setSignupValues((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  // };
   const postData = async () => {
 		setIsLoading(true);
 		setError(null);

@@ -56,7 +56,7 @@ export default function LoginPage() {
     e.preventDefault();
     const loginSuccess = await postData();
     if (loginSuccess) {
-      navigate(Paths.dashboard)
+      navigate(Paths.dashboard, { replace: true })
     }
   };
 

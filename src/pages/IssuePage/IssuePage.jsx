@@ -31,8 +31,6 @@ export default function IssuePage() {
         throw new Error(responseData);
       }
       const result = await response.json();
-      console.log("Result in IssuePage: ", result);
-      
       setData(result);
     } catch (err) {
       setError(err.message);

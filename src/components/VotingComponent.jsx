@@ -11,7 +11,7 @@ const VotingComponent = ({ featureId, initialVoteCount, userVote }) => {
         try {
             const token = localStorage.getItem("token")
             if (!token) {
-                throw new Error("Unable to retrieve token")
+                throw new Error("Unable to retrieve token. Please log in again")
             }
             const response = await fetch(`${apiBaseUrl}/feature-vote`, {
                 method: 'POST',

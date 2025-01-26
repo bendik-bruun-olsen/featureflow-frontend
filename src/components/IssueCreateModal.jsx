@@ -2,9 +2,9 @@ import { useState } from "react";
 
 export default function IssueCreateModal({ show, onClose, onSuccess }) {
   const [data, setData] = useState({ title: "", description: "", severity: "medium" });
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ export default function IssueCreateModal({ show, onClose, onSuccess }) {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        throw new Error("Unable to retrieve token");
+        throw new Error("Unable to retrieve token. Please log in again");
       }
       const response = await fetch(`${apiBaseUrl}/issues/create`, {
         method: "POST",
