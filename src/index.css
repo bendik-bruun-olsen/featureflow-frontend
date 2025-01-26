@@ -4,13 +4,18 @@
 	box-sizing: border-box;
 }
 
+:root {
+	--white: #ebebeb;
+	--faded-white: #cacaca;
+}
+
 #root {
-	background-color: rgb(95, 95, 95);
+	background-color: var(--white);
 	min-height: 100vh;
 }
 
 main {
 	max-width: 1200px;
-	margin: 50px auto 0 auto;
+	margin: 0 auto;
 	background-color: rgb(116, 116, 116);
 }

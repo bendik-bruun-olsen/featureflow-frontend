@@ -1,23 +1,49 @@
 import { useState } from "react";
-import usePost from "../hooks/usePost";
 
 export default function FeatureRequestCreateModal({ show, onClose, onSuccess }) {
-  const [formData, setFormData] = useState({ title: "", description: "" });
-  const { post, isLoading, error } = usePost();
+  const [data, setData] = useState({ title: "", description: "" });
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await post(`${apiBaseUrl}/feature-request/create`, formData);
-      setFormData({ title: "", description: "" });
-      onSuccess(response);
+    await postData();
+    if (!error) {
+      setData({ title: "", description: "" })
+      onSuccess();
       onClose();
-    } catch (err) {
-      console.error("Submission Error:", err);
     }
-  };
+  }
+
+  const postData = async () => {
+		setIsLoading(true);
+		setError(null);
+		try {
+      const token = localStorage.getItem("token")
+      if (!token) {
+        throw new Error("Unable to retrieve token")
+      }
+			const response = await fetch(`${apiBaseUrl}/feature-request/create`, {
+				method: "POST",
+				headers: { 
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+          },
+				body: JSON.stringify(data),
+			});
+      if (!response.ok) {
+        throw new Error("Unable to create request")
+      }
+			const result = await response.json();
+      setData(result);
+		} catch (err) {
+			setError(err.message);
+			console.error(err);
+		} finally {
+			setIsLoading(false);
+		}
+  }
 
   if (!show) return null;
 
@@ -40,8 +66,8 @@ export default function FeatureRequestCreateModal({ show, onClose, onSuccess }) 
                   type="text"
                   id="title"
                   className="form-control"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  value={data.title}
+                  onChange={(e) => setData({ ...data, title: e.target.value })}
                   required
                   maxLength={255}
                 />
@@ -54,8 +80,8 @@ export default function FeatureRequestCreateModal({ show, onClose, onSuccess }) 
                   id="description"
                   className="form-control"
                   rows="6"
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  value={data.description}
+                  onChange={(e) => setData({ ...data, description: e.target.value })}
                   maxLength={1000}
                 />
               </div>

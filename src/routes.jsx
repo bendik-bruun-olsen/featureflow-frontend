@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, Navigate } from "react-router-dom"
+import { createBrowserRouter } from "react-router-dom"
 import { Paths } from "./paths"
 
 import DashboardPage from "./pages/DashboardPage/DashboardPage"
@@ -6,11 +6,8 @@ import FeatureRequestsPage from "./pages/FeatureRequestsPage/FeatureRequestsPage
 import IssuePage from "./pages/IssuePage/IssuePage"
 import LoginPage from "./pages/LoginPage/LoginPage"
 import SignupPage from "./pages/SignupPage/SignupPage"
-
-const RequireAuthWrapper = () => {
-    const isUserLoggedIn = !!localStorage.getItem("token");
-    return isUserLoggedIn ? <Outlet /> : <Navigate to="/login" replace />;
-  };
+import Layout from "./components/Layout"
+import { RequireAuthWrapper } from "./components/RequireAuthWrapper"
 
   const unprotectedRoutes = [
     {
@@ -40,10 +37,15 @@ const RequireAuthWrapper = () => {
 
   const router = createBrowserRouter([
     {
-        element: <RequireAuthWrapper/>,
-        children: protectedRoutes
+        element: <Layout />,
+        children: [
+            {
+                element: <RequireAuthWrapper />,
+                children: protectedRoutes,
+            },
+            ...unprotectedRoutes,
+        ],
     },
-    ...unprotectedRoutes
-  ]);
+]);
 
   export default router;

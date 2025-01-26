@@ -3,9 +3,10 @@ import { useState } from "react";
 export default function usePost() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(null);
-	const [response, setResponse] = useState(null);
 
 	const post = async (url, data = {}) => {
+		console.log("Posting");
+
 		setIsLoading(true);
 		setError(null);
 
@@ -13,6 +14,7 @@ export default function usePost() {
 			const token = localStorage.getItem("token");
 			const headers = { "Content-Type": "application/json" };
 			if (token) headers.Authorization = `Bearer ${token}`;
+
 			const res = await fetch(url, {
 				method: "POST",
 				headers: headers,
@@ -25,7 +27,6 @@ export default function usePost() {
 			}
 
 			const json = await res.json();
-			setResponse(json);
 			return json;
 		} catch (err) {
 			setError(err.message);
@@ -35,5 +36,5 @@ export default function usePost() {
 		}
 	};
 
-	return { post, isLoading, error, response };
+	return { post, isLoading, error };
 }
