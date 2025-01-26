@@ -58,8 +58,7 @@ export default function LoginPage() {
 
   return (
     <div
-      className="d-flex justify-content-center align-items-center vh-100"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
+      className="d-flex justify-content-center align-items-center" style={{height: "100%"}}
     >
       <div className="card shadow-lg p-4" style={{ width: "400px" }}>
         <h5 className="card-title text-center mb-3">Log in to Your Account</h5>

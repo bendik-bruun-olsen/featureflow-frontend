@@ -9,13 +9,27 @@
 	--faded-white: #cacaca;
 }
 
+html,
+body,
+#root {
+	min-height: 100vh;
+}
+
 #root {
 	background-color: var(--white);
-	min-height: 100vh;
+	position: relative;
+	padding: 50px 0;
 }
 
 main {
 	max-width: 1200px;
 	margin: 0 auto;
-	padding-bottom: 50px;
+	height: 100%;
+}
+
+nav {
+	position: fixed !important;
+	width: 100%;
+	top: 0;
+	z-index: 10;
 }
