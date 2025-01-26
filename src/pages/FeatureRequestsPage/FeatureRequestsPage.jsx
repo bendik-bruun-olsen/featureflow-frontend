@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import FeatureRequestCreateModal from "../../components/FeatureRequestCreateModal";
 import VotingComponent from "../../components/VotingComponent";
+import { capitalizeEachWord } from "../../utils"
 
 export default function FeatureRequestsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,48 +61,52 @@ export default function FeatureRequestsPage() {
       <button className="btn btn-primary mb-3" onClick={handleModalOpen}>
         Request Feature
       </button>
-
+  
       <div className="feature-requests-list">
         {data.length === 0 ? (
           <p>No feature requests yet.</p>
         ) : (
           data.sort((a, b) => b.voteCount - a.voteCount).map((featureRequest) => (
             <div key={featureRequest.id} className="card mb-3">
-              <div className="card-body d-flex justify-content-between align-items-center">
-                <div>
-                  <h5 className="card-title mb-1">{featureRequest.title}</h5>
-                  <p className="card-text text-muted mb-0">
-                    Requested by: {featureRequest.createdByName}
-                  </p>
-                  <p className="card-text text-muted">
-                    Created: {new Date(featureRequest.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-                <div className="d-flex align-items-center gap-3">
-                  <VotingComponent
-                    featureId={featureRequest.id}
-                    initialVoteCount={featureRequest.voteCount || 0}
-                    userVote={featureRequest.userVote || 0}
-                  />
-                  <span
-                    className={`badge ${
-                      featureRequest.status === "in progress"
-                        ? "bg-warning"
-                        : featureRequest.status === "completed"
-                        ? "bg-success"
-                        : "bg-secondary"
-                    }`}
-                  >
-                    {featureRequest.status}
-                  </span>
+              <div className="card-body">
+                <div className="row align-items-center">
+                  <div className="col-auto">
+                    <VotingComponent
+                      featureId={featureRequest.id}
+                      initialVoteCount={featureRequest.voteCount || 0}
+                      userVote={featureRequest.userVote || 0}
+                    />
+                  </div>
+                  <div className="col">
+                    <h4 className="card-title mb-3">{featureRequest.title}</h4>
+                    <div className="d-flex justify-content-between">
+                      <p className="card-text text-muted mb-0">
+                        Requested by: {featureRequest.createdByName}
+                      </p>
+                      <p className="card-text text-muted mb-0">
+                        Created: {new Date(featureRequest.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-auto">
+                    <span
+                      className={`badge ${
+                        featureRequest.status === "in progress"
+                          ? "bg-warning"
+                          : featureRequest.status === "completed"
+                          ? "bg-success"
+                          : "bg-secondary"
+                      } fs-6 py-2 px-3`}
+                    >
+                      {capitalizeEachWord(featureRequest.status)}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           ))
         )}
       </div>
-
-      {/* Modal */}
       <FeatureRequestCreateModal
         show={isModalOpen}
         onClose={handleModalClose}
