@@ -8,8 +8,8 @@ export default function FeatureRequestsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
-  const [sortMethod, setSortMethod] = useState("top"); // Default sorting method
-  const [filterStatus, setFilterStatus] = useState(""); // Default: no status filter
+  const [sortMethod, setSortMethod] = useState("top");
+  const [filterStatus, setFilterStatus] = useState("");
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   const fetchData = async () => {
