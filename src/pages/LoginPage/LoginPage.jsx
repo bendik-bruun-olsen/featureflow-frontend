@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Paths } from "../../paths";
-import usePost from "../../hooks/usePost";
 
 export default function LoginPage() {
   const [loginValues, setLoginValues] = useState({
@@ -10,15 +9,9 @@ export default function LoginPage() {
   });
   const navigate = useNavigate();
   const location = useLocation();
-  const { post, isLoading, error } = usePost();
-
-  const handleLoginValuesChange = (e) => {
-    const { name, value } = e.target;
-    setLoginValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     if (location.state?.email) {
@@ -29,19 +22,37 @@ export default function LoginPage() {
     }
   }, [location.state]);
 
+  const postData = async () => {
+		setIsLoading(true);
+		setError(null);
+		try {
+			const response = await fetch(`${apiBaseUrl}/user/login`, {
+				method: "POST",
+				headers: { 
+          "Content-Type": "application/json",
+          },
+				body: JSON.stringify(loginValues),
+			});
+      const responseData = await response.json();
+      if (!response.ok) {
+        throw new Error(responseData.message)
+      }
+      localStorage.setItem("token", responseData.token);
+      return true;
+		} catch (err) {
+			setError(err.message);
+			console.error(err);
+      return false;
+		} finally {
+			setIsLoading(false);
+		}
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-
-    try {
-      const response = await post(`${apiBaseUrl}/user/login`, loginValues);
-      if (response) {
-        console.log("Login result: ", response);
-        localStorage.setItem("token", response.token);
-        navigate(Paths.dashboard);
-      }
-    } catch (err) {
-      console.error("An error happened logging in: ", err);
+    const loginSuccess = await postData();
+    if (loginSuccess) {
+      navigate(Paths.dashboard)
     }
   };
 
@@ -64,7 +75,7 @@ export default function LoginPage() {
               name="email"
               className="form-control"
               value={loginValues.email}
-              onChange={handleLoginValuesChange}
+              onChange={(e) => setLoginValues({ ...loginValues, email: e.target.value})}
               placeholder="Enter your email"
               required
             />
@@ -79,7 +90,7 @@ export default function LoginPage() {
               name="password"
               className="form-control"
               value={loginValues.password}
-              onChange={handleLoginValuesChange}
+              onChange={(e) => setLoginValues({ ...loginValues, password: e.target.value})}
               placeholder="Enter your password"
               minLength={8}
               maxLength={255}
