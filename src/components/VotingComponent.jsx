@@ -39,15 +39,12 @@ const VotingComponent = ({ featureId, initialVoteCount, userVote }) => {
         console.log("past");
         
         if (userVoteState === vote) {
-            // User cancels their current vote
             setVoteCount(voteCount - vote);
             setUserVoteState(0);
         } else if (userVoteState === 0) {
-            // User adds a new vote
             setVoteCount(voteCount + vote);
             setUserVoteState(vote);
         } else {
-            // User switches their vote (e.g., upvote to downvote or vice versa)
             setVoteCount(voteCount + 2 * vote);
             setUserVoteState(vote);
         }
@@ -58,14 +55,10 @@ const VotingComponent = ({ featureId, initialVoteCount, userVote }) => {
     
 
     return (
-        <div>
-            <button onClick={() => handleVote(1)} style={{ backgroundColor: userVoteState === 1 ? "green" : "gray"}}>
-                Upvote
-            </button>
-            <span>{voteCount}</span>
-            <button onClick={() => handleVote(-1)} style={{ backgroundColor: userVoteState === -1 ? "red" : "gray"}}>
-                Downvote
-            </button>
+        <div className="d-flex flex-column align-items-center px-2">
+            <i className="bi bi-caret-up-fill fs-4" onClick={() => handleVote(1)} style={{ cursor: "pointer", color: userVoteState === 1 ? "green" : "gray"}} />
+            <span className="fs-4">{voteCount}</span>
+            <i className="bi bi-caret-down-fill fs-4" onClick={() => handleVote(-1)} style={{ cursor: "pointer", color: userVoteState === -1 ? "red" : "gray"}} />
         </div>
     );
 };
